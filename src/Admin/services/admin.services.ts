@@ -317,7 +317,6 @@ export class AdminService {
 
             return admin
         } catch (err) {
-            console.log("err: ", err)
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,

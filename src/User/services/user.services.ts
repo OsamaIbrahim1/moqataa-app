@@ -188,7 +188,6 @@ export class UserService {
 
             return afterUpdate
         } catch (err) {
-            console.log("err: ", err)
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
