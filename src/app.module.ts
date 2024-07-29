@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './modules';
+import { UsersModule, AdminModule, ProductModule, ReportModule } from './modules';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { databaseConfig } from './config';
-import { User } from './DB/Schemas';
 import { models } from './DB/model-generation';
 import { HttpExceptionFilter } from './Guards';
 import { APP_FILTER } from '@nestjs/core';
@@ -14,14 +13,17 @@ import { APP_FILTER } from '@nestjs/core';
   imports: [
     SequelizeModule.forRoot(databaseConfig),
     models,
-    UsersModule
+    UsersModule,
+    AdminModule,
+    ProductModule,
+    ReportModule
   ],
   controllers: [AppController],
   providers: [AppService,
-    // {
-    // provide: APP_FILTER,
-    // useClass: HttpExceptionFilter,
-    // },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule { }

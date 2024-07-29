@@ -1,13 +1,12 @@
-import { Column, DataType, HasMany, Model, Table, } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { Role } from "../../utils";
-import { Report } from "./report.model";
+import { Product } from "./product.model";
 
 @Table({
-    tableName: 'User',
+    tableName: 'Admin',
     timestamps: true,
 })
-
-export class User extends Model<User> {
+export class Admin extends Model<Admin> {
     @Column({
         type: DataType.INTEGER,
         autoIncrement: true,
@@ -49,7 +48,7 @@ export class User extends Model<User> {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        defaultValue: Role.USER,
+        defaultValue: Role.ADMIN,
     })
     role: string;
 
@@ -66,11 +65,10 @@ export class User extends Model<User> {
     })
     token: string;
 
-    @HasMany(() => Report, {
+    @HasMany(() => Product, {
         foreignKey: 'adminId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    reports: Report[]
-
+    products: Product[];
 }

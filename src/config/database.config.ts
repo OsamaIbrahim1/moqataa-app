@@ -1,6 +1,6 @@
-// src/config/database.config.ts
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import * as env from './app.environments';
+import { Admin, Product, Report, User } from '../DB/Schemas';
 
 export const databaseConfig: SequelizeModuleOptions = {
     dialect: 'mysql',
@@ -9,7 +9,7 @@ export const databaseConfig: SequelizeModuleOptions = {
     username: env.DB_USERNAME,
     password: env.DB_PASSWORD,
     database: env.DB_NAME,
-    models:[],
+    models: [Admin, User, Product, Report],
     autoLoadModels: true,
     synchronize: true,
-};
+}

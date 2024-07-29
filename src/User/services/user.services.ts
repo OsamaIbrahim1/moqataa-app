@@ -44,18 +44,18 @@ export class UserService {
             const checkEmail = await this.userModel.findOne({ where: { email } });
             if (checkEmail) {
                 throw new BadRequestException({
-                    message: "Email already exists", statusCode: 400, timestamp: new Date().toISOString(),
+                    message: "Email already exists", status: 400,
                 });
             }
 
             // * hash password
             const hashedPassword = await bcrypt.hash(password, env.SALT_ROUNDS);
             if (!hashedPassword) {
-                throw new BadRequestException({ message: "Error hashing password", statusCode: 400 });
+                throw new BadRequestException({ message: "Error hashing password", status: 400 });
             }
 
             if (!file) {
-                throw new BadRequestException({ message: "please upload image", statusCode: 400 });
+                throw new BadRequestException({ message: "please upload image", status: 400 });
             }
 
             // * upload image to cloudinary
@@ -67,7 +67,7 @@ export class UserService {
             // * generate token 
             const token = await this.jwtService.signAsync({ email, name }, { secret: env.SECRET_LOGIN_TOKEN, expiresIn: env.TIME_EXPIRE_TOKEN });
             if (!token) {
-                throw new BadRequestException({ message: "Error generating token", statusCode: 400 });
+                throw new BadRequestException({ message: "Error generating token", status: 400 });
             }
 
             // * generate object user
@@ -83,7 +83,7 @@ export class UserService {
             // * create user
             const user = await this.userModel.create(userObj);
             if (!user) {
-                throw new BadRequestException({ message: "Error creating user", statusCode: 400 });
+                throw new BadRequestException({ message: "Error creating user", status: 400 });
             }
 
             // * create token verification
@@ -95,16 +95,16 @@ export class UserService {
                 'welcome to our app', `<h1>Click on the link to confirm your email</h1>
             <a href="${confirmationLink}">Confirm Email</a>`)
             if (!isEmailSent) {
-                throw new InternalServerErrorException({ message: `Email is not sent ${email}.`, statusCode: 400 })
+                throw new InternalServerErrorException({ message: `Email is not sent ${email}.`, status: 400 })
             }
 
             return user
         } catch (err) {
             throw new HttpException({
                 error: err['response'].message,
-                status: err['response'].statusCode,
+                status: err['response'].status,
                 timestamp: new Date().toISOString()
-            }, err['response'].statusCode, {
+            }, err['response'].status, {
                 cause: err
             });
         }
@@ -123,22 +123,22 @@ export class UserService {
             // * decode token
             const { email } = await this.jwtService.verifyAsync(token, { secret: env.SECRET_VERIFICATION_TOKEN })
             if (!email) {
-                throw new BadRequestException({ message: 'Error verifying email', statusCode: 400 })
+                throw new BadRequestException({ message: 'Error verifying email', status: 400 })
             }
 
             // * update isEmailVerified to true
             const user = await this.userModel.update({ isEmailVerified: true }, { where: { email } })
             if (!user) {
-                throw new NotFoundException({ message: 'User not found', statusCode: 404 })
+                throw new BadRequestException({ message: 'email not verified', status: 404 })
             }
 
             return user
         } catch (err) {
             throw new HttpException({
                 error: err['response'].message,
-                status: err['response'].statusCode,
+                status: err['response'].status,
                 timestamp: new Date().toISOString()
-            }, err['response'].statusCode, {
+            }, err['response'].status, {
                 cause: err
             });
         }
@@ -150,6 +150,7 @@ export class UserService {
      * * check if email exists
      * * check if password is correct
      * * generate token
+     * * get user after update
      */
     async signInServices(body: signInBodyDTO) {
         // * destructure data from body
@@ -158,34 +159,41 @@ export class UserService {
             // * check if email exists
             const user = await this.userModel.findOne({ where: { email, isEmailVerified: true } })
             if (!user) {
-                throw new NotFoundException({ message: 'please verify your email', statusCode: 404 })
+                throw new NotFoundException({ message: 'please verify your email', status: 404 })
             }
 
             // * check if password is correct
             const isPasswordCorrect = await bcrypt.compare(password, user.password)
             if (!isPasswordCorrect) {
-                throw new BadRequestException({ message: 'Password is incorrect', statusCode: 400 })
+                throw new BadRequestException({ message: 'Password is incorrect', status: 400 })
             }
 
             // * generate token
-            const token = await this.jwtService.signAsync({ email, id: user.id }, { secret: env.SECRET_LOGIN_TOKEN, expiresIn: env.TIME_EXPIRE_TOKEN })
+            const token = await this.jwtService.signAsync({ email, id: user.id, role: user.role }, { secret: env.SECRET_LOGIN_TOKEN, expiresIn: env.TIME_EXPIRE_TOKEN })
             if (!token) {
-                throw new BadRequestException({ message: 'Error generating token', statusCode: 400 })
+                throw new BadRequestException({ message: 'Error generating token', status: 400 })
             }
 
             // * update token 
             const userUpdate = await this.userModel.update({ token }, { where: { email } })
             if (!userUpdate) {
-                throw new BadRequestException({ message: 'Error updating token', statusCode: 400 })
+                throw new BadRequestException({ message: 'Error updating token', status: 400 })
             }
 
-            return user.dataValues
+            // * get user after update
+            const afterUpdate = await this.userModel.findByPk(user.id)
+            if (!afterUpdate) {
+                throw new NotFoundException({ message: 'user not found', status: 404 })
+            }
+
+            return afterUpdate
         } catch (err) {
+            console.log("err: ", err)
             throw new HttpException({
                 error: err['response'].message,
-                status: err['response'].statusCode,
+                status: err['response'].status,
                 timestamp: new Date().toISOString()
-            }, err['response'].statusCode, {
+            }, err['response'].status, {
                 cause: err
             });
         }
@@ -211,7 +219,7 @@ export class UserService {
             // * check if email already exists
             const user = await this.userModel.findByPk(id);
             if (!user) {
-                throw new NotFoundException({ message: 'user not found', statusCode: 404 })
+                throw new NotFoundException({ message: 'user not found', status: 404 })
             }
 
             // * if user wants to update name
@@ -222,12 +230,12 @@ export class UserService {
             // * if user wants to update email
             if (email) {
                 if (user.email === email) {
-                    throw new BadRequestException({ message: 'this email the same as the old email', statusCode: 400 })
+                    throw new BadRequestException({ message: 'this email the same as the old email', status: 400 })
                 }
 
                 const checkEmail = await this.userModel.findOne({ where: { email } });
                 if (checkEmail) {
-                    throw new BadGatewayException({ message: 'email already exists, please enter another email', statusCode: 400 })
+                    throw new BadGatewayException({ message: 'email already exists, please enter another email', status: 400 })
                 }
                 user.email = email
             }
@@ -235,7 +243,7 @@ export class UserService {
             // * if user wants to update image
             if (oldPublicId) {
                 if (!req.file.path) {
-                    throw new BadRequestException({ message: 'please upload image', statusCode: 400 })
+                    throw new BadRequestException({ message: 'please upload image', status: 400 })
                 }
                 const newPublicId = oldPublicId.split(`${user.folderId}/`)[1]
                 const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, {
@@ -252,9 +260,9 @@ export class UserService {
         } catch (err) {
             throw new HttpException({
                 error: err['response'].message,
-                status: err['response'].statusCode,
+                status: err['response'].status,
                 timestamp: new Date().toISOString()
-            }, err['response'].statusCode, {
+            }, err['response'].status, {
                 cause: err
             });
         }
@@ -271,18 +279,18 @@ export class UserService {
 
         try {
             // * get user
-            const user = await this.userModel.findByPk(id, { attributes: ['name', 'email', 'image'] })
+            const user = await this.userModel.findByPk(id, { attributes: ['name', 'email', 'image', 'role'] })
             if (!user) {
-                throw new NotFoundException({ message: 'user not found', statusCode: 404 })
+                throw new NotFoundException({ message: 'user not found', status: 404 })
             }
 
             return user
         } catch (err) {
             throw new HttpException({
                 error: err['response'].message,
-                status: err['response'].statusCode,
+                status: err['response'].status,
                 timestamp: new Date().toISOString()
-            }, err['response'].statusCode, {
+            }, err['response'].status, {
                 cause: err
             });
         }
@@ -300,14 +308,16 @@ export class UserService {
             // * delete user
             const user = await this.userModel.destroy({ where: { id } })
             if (!user) {
-                throw new NotFoundException({ message: 'user not found', statusCode: 404 })
+                throw new NotFoundException({ message: 'user not found', status: 404 })
             }
+
+            return user
         } catch (err) {
             throw new HttpException({
                 error: err['response'].message,
-                status: err['response'].statusCode,
+                status: err['response'].status,
                 timestamp: new Date().toISOString()
-            }, err['response'].statusCode, {
+            }, err['response'].status, {
                 cause: err
             });
         }
