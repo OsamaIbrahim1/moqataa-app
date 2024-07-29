@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
     async canActivate(
         context: ExecutionContext,
-    ): Promise<object> {
+    ): Promise<boolean> {
 
         const req = context.switchToHttp().getRequest();
         const { accesstoken } = req.headers;
@@ -42,18 +42,17 @@ export class AuthGuard implements CanActivate {
 
                 req.authUser = findAdmin
 
-                return req
+                return true
             } else if (decodedData.role === Role.USER) {
                 const findAdmin = await this.userModel.findByPk(decodedData.id, { attributes: ['id', 'email', 'role'] });
                 if (!findAdmin) { throw new NotFoundException({ message: `please SignUp first`, status: 404 }); }
 
                 req.authUser = findAdmin
 
-                return req
+                return true
             }
 
             // * TokenExpiredError: jwt expired
-
 
         } catch (err) {
             throw new HttpException({

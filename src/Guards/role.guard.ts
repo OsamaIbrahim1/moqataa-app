@@ -6,7 +6,7 @@ import { ROLES_KEY, Role } from '../utils';
 export class RolesGuard implements CanActivate {
     constructor(private reflector: Reflector) { }
 
-    async canActivate(context: ExecutionContext): Promise<object> {
+    async canActivate(context: ExecutionContext): Promise<boolean> {
         const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass(),
@@ -27,6 +27,6 @@ export class RolesGuard implements CanActivate {
             throw new BadRequestException('You do not have permission to access this resource');
         }
 
-        return req
+        return true
     }
 }
