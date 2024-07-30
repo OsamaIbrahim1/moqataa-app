@@ -53,7 +53,7 @@ export class AuthGuard implements CanActivate {
             }
 
             // * TokenExpiredError: jwt expired
-
+            return false
         } catch (err) {
             throw new HttpException({
                 error: err['response'].message,

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule, AdminModule, ProductModule, ReportModule } from './modules';
+import { UsersModule, AdminModule, ProductModule, ReportModule, DenotionModule } from './modules';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { databaseConfig } from './config';
 import { models } from './DB/model-generation';
@@ -16,7 +16,8 @@ import { APP_FILTER } from '@nestjs/core';
     UsersModule,
     AdminModule,
     ProductModule,
-    ReportModule
+    ReportModule,
+    DenotionModule
   ],
   controllers: [AppController],
   providers: [AppService,

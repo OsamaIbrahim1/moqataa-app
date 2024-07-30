@@ -1,6 +1,7 @@
 import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { Role } from "../../utils";
 import { Product } from "./product.model";
+import { Denotion } from "./denotion.model";
 
 @Table({
     tableName: 'Admin',
@@ -71,4 +72,11 @@ export class Admin extends Model<Admin> {
         onUpdate: 'CASCADE',
     })
     products: Product[];
+
+    @HasMany(() => Denotion, {
+        foreignKey: 'adminId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    denotions: Denotion[];
 }
