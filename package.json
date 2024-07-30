@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build --output public && (if [ -d src/public ]; then cp -r src/public dist/; fi)",
+    "build": "nest build && (if [ -d src/public ]; then cp -r src/public dist/; fi)",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
