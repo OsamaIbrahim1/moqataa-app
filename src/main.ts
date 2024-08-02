@@ -34,7 +34,7 @@ async function bootstrap() {
     })
   )
 
-  // app.use(json({ limit: 'ikb' }));
+  app.use(json({ limit: 'ikb' }));
   app.use(helmet());
   app.use(hpp());
   app.use(compression())
