@@ -9,12 +9,7 @@ import { emailRegex, englishNameRegex, passwordRegex } from "../utils";
 export class SignUpBodyDTO {
 
     @IsNotEmpty()
-    @MinLength(3)
-    @MaxLength(20)
     @IsString()
-    @Matches(englishNameRegex, {
-        message: 'Invalid name, please enter third name'
-    })
     name: string;
 
     @IsNotEmpty()
@@ -25,9 +20,8 @@ export class SignUpBodyDTO {
     email: string;
 
     @IsString()
-    @Matches(passwordRegex, {
-        message: 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    })
+    @MinLength(6)
+    @MaxLength(15)
     @IsNotEmpty()
     password: string;
 }
@@ -49,9 +43,8 @@ export class signInBodyDTO {
     email: string;
 
     @IsString()
-    @Matches(passwordRegex, {
-        message: 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    })
+    @MinLength(6)
+    @MaxLength(15)
     @IsNotEmpty()
     password: string;
 }

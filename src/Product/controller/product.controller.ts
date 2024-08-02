@@ -75,6 +75,9 @@ export class ProductController {
 
     //================================= get all product =================================//
     @Get('getAllProduct')
+    @UseGuards(RolesGuard)
+    @UseGuards(AuthGuard)
+    @Roles(Role.ADMIN, Role.USER)
     async getAllProductController(
         @Res() res: Response,
     ) {

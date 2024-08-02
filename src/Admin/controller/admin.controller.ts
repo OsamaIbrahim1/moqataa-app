@@ -8,7 +8,6 @@ import { signInBodyDTO, SignUpBodyDTO, updateAccountBodyDTO, verifyEmailPararmDT
 import { Role, Roles } from "../../utils";
 import { RolesGuard } from "../../Guards/role.guard";
 
-
 @Controller('admin')
 export class AdminController {
     constructor(
