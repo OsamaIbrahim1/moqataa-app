@@ -92,13 +92,13 @@ export class UserController {
     }
 
     //================================== Login with Gemail =================================//
-    @Post('loginWithGemail')
-    async loginWithGemailController(
-        @Body() body: signInBodyDTO,
-        @Res() res: Response,
-    ) {
-        const response = await this.userServices.loginWithGemailServices(body);
+    // @Post('loginWithGemail')
+    // async loginWithGemailController(
+    //     @Body() body: signInBodyDTO,
+    //     @Res() res: Response,
+    // ) {
+    //     const response = await this.userServices.loginWithGemailServices(body);
 
-        res.status(200).json({ message: 'logedIn successfully', data: response });
-    }
+    //     res.status(200).json({ message: 'logedIn successfully', data: response });
+    // }
 }

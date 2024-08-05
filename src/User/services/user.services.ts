@@ -323,44 +323,44 @@ export class UserService {
         }
     }
 
-    //================================= login With Gemail==================================//
-    async loginWithGemailServices(body: any) {
-        // * destructure data from body
-        const { idToken } = body
-        try {
+//     //================================= login With Gemail==================================//
+//     async loginWithGemailServices(body: any) {
+//         // * destructure data from body
+//         const { idToken } = body
+//         try {
 
-            const client = new OAuth2Client();
-            async function verify() {
-                const ticket = await client.verifyIdToken({
-                    idToken,
-                    audience: env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-                    // Or, if multiple clients access the backend:
-                    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-                });
-                const payload = ticket.getPayload();
-                return payload
-            }
-            const result = await verify().catch(console.error);
+//             const client = new OAuth2Client();
+//             async function verify() {
+//                 const ticket = await client.verifyIdToken({
+//                     idToken,
+//                     audience: env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+//                     // Or, if multiple clients access the backend:
+//                     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+//                 });
+//                 const payload = ticket.getPayload();
+//                 return payload
+//             }
+//             const result = await verify().catch(console.error);
 
-            if(!result.email_verified){
-                throw new BadRequestException({ message: 'email not verified', status: 400 })
-            }
-            console.log("result: ", result)
-            // * get user by email
-                const user = await this.userModel.findOne({ where: { email: result.email, provider: 'GOOGLE' } });
-                if (!user) {
-                    throw new NotFoundException({ message: 'user not found', status: 404 })
-                }
+//             if(!result.email_verified){
+//                 throw new BadRequestException({ message: 'email not verified', status: 400 })
+//             }
+//             console.log("result: ", result)
+//             // * get user by email
+//                 const user = await this.userModel.findOne({ where: { email: result.email, provider: 'GOOGLE' } });
+//                 if (!user) {
+//                     throw new NotFoundException({ message: 'user not found', status: 404 })
+//                 }
 
 
-        } catch (err) {
-            throw new HttpException({
-                error: err['response'].message,
-                status: err['response'].status,
-                timestamp: new Date().toISOString()
-            }, err['response'].status, {
-                cause: err
-            });
-        }
-    }
+//         } catch (err) {
+//             throw new HttpException({
+//                 error: err['response'].message,
+//                 status: err['response'].status,
+//                 timestamp: new Date().toISOString()
+//             }, err['response'].status, {
+//                 cause: err
+//             });
+//         }
+//     }
 }

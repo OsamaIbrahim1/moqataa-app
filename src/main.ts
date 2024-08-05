@@ -24,25 +24,25 @@ async function bootstrap() {
     credentials: true
   });
   app.use(cookieParser());
-  app.use(
-    csurf({
-      cookie: {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict'
-      }
-    })
-  )
+  // app.use(
+  //   csurf({
+  //     cookie: {
+  //       httpOnly: true,
+  //       secure: true,
+  //       sameSite: 'strict'
+  //     }
+  //   })
+  // )
 
   app.use(json({ limit: 'ikb' }));
   app.use(helmet());
   app.use(hpp());
   app.use(compression())
   app.use(express.static('uploads'));
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    res.cookie('cookie', req.csrfToken());
-    next()
-  })
+  // app.use((req: Request, res: Response, next: NextFunction) => {
+  //   res.cookie('cookie', req.csrfToken());
+  //   next()
+  // })
 
   await app.listen(env.PORT, () => {
     console.log(`Server is running on port ${env.PORT}`);
