@@ -217,9 +217,6 @@ export class ProductService {
         try {
             // * get all products
             const products = await this.productModel.findAll({ attributes: { exclude: ['id', 'adminId', 'createdAt', 'updatedAt'] } })
-            if (products.length === 0) {
-                throw new NotFoundException({ message: 'No found products', status: 404 });
-            }
 
             return products;
         } catch (err) {

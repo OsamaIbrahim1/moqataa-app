@@ -90,4 +90,15 @@ export class UserController {
 
         res.status(200).json({ message: 'delete account successfully', data: response });
     }
+
+    //================================== Login with Gemail =================================//
+    @Post('loginWithGemail')
+    async loginWithGemailController(
+        @Body() body: signInBodyDTO,
+        @Res() res: Response,
+    ) {
+        const response = await this.userServices.loginWithGemailServices(body);
+
+        res.status(200).json({ message: 'logedIn successfully', data: response });
+    }
 }
