@@ -46,9 +46,9 @@ export class ProductController {
 
     //================================== get product By Id =======================================//
     @Get('getProductById/:productId')
-    @UseGuards(RolesGuard)
-    @UseGuards(AuthGuard)
-    @Roles(Role.ADMIN, Role.USER)
+    // @UseGuards(RolesGuard)
+    // @UseGuards(AuthGuard)
+    // @Roles(Role.ADMIN, Role.USER)
     async getProductByIdController(
         @Param() param: { productId: string },
         @Res() res: Response,
@@ -75,9 +75,9 @@ export class ProductController {
 
     //================================= get all product =================================//
     @Get('getAllProduct')
-    @UseGuards(RolesGuard)
-    @UseGuards(AuthGuard)
-    @Roles(Role.ADMIN, Role.USER)
+    // @UseGuards(RolesGuard)
+    // @UseGuards(AuthGuard)
+    // @Roles(Role.ADMIN, Role.USER)
     async getAllProductController(
         @Res() res: Response,
     ) {

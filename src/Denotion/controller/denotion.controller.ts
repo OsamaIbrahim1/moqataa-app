@@ -59,9 +59,9 @@ export class DenotionController {
 
     //================================== get Denotion By Id =======================================//
     @Get('getDenotionById/:denotionId')
-    @UseGuards(RolesGuard)
-    @UseGuards(AuthGuard)
-    @Roles(Role.ADMIN, Role.USER)
+    // @UseGuards(RolesGuard)
+    // @UseGuards(AuthGuard)
+    // @Roles(Role.ADMIN, Role.USER)
     async getDenotionByIdController(
         @Req() req: Request,
         @Res() res: Response

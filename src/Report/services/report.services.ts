@@ -10,8 +10,8 @@ export class ReportService {
         private reportModel: typeof Report,
         @InjectModel(Product)
         private productModel: typeof Product,
-        @InjectModel(User)
-        private userModel: typeof User,
+        // @InjectModel(User)
+        // private userModel: typeof User,
     ) { }
 
 
@@ -24,11 +24,11 @@ export class ReportService {
      * * create object report
      * * create report
      */
-    async createReportService(req: any, body: addReportBodyDTO) {
+    async createReportService(/*req: any,*/ body: addReportBodyDTO) {
         // * destructuring data from body
         const { message, productId } = body;
         // * destructuring data from headers
-        const { id } = req.authUser
+        // const { id } = req.authUser
         try {
             // * check if product is exist
             const product = await this.productModel.findByPk(productId);
@@ -37,17 +37,17 @@ export class ReportService {
             }
 
             // * check if user is exist
-            const user = await this.userModel.findByPk(id);
-            if (!user) {
-                throw new NotFoundException({ message: 'User not found', status: 404 });
-            }
+            // const user = await this.userModel.findByPk(id);
+            // if (!user) {
+            //     throw new NotFoundException({ message: 'User not found', status: 404 });
+            // }
             // * create object report
             const reportObj = {
                 message,
                 productId,
-                userId: id,
-                emailUser: user.email,
-                username: user.name
+                // userId: id,
+                // emailUser: user.email,
+                // username: user.name
             }
 
             // * create report
@@ -79,12 +79,12 @@ export class ReportService {
         // * destructuring data from body
         const { message } = body;
         // * destructuring data from headers
-        const { id } = req.authUser;
+        // const { id } = req.authUser;
         // * destructuring data from params
         const { reportId } = req.params;
         try {
             // * update report
-            const report = await this.reportModel.update({ message }, { where: { id: reportId, userId: id } });
+            const report = await this.reportModel.update({ message }, { where: { id: reportId, /*userId: id*/ } });
             if (!report) {
                 throw new NotFoundException({ message: 'Report not updated', status: 404 });
             }
@@ -114,7 +114,7 @@ export class ReportService {
         const { reportId } = req.params;
         try {
             // * delete report
-            const report = await this.reportModel.destroy({ where: { id: reportId, userId: id } });
+            const report = await this.reportModel.destroy({ where: { id: reportId, /*userId: id*/ } });
             if (!report) {
                 throw new NotFoundException({ message: 'Report not deleted', status: 404 });
             }
@@ -139,7 +139,7 @@ export class ReportService {
      */
     async getReportByIdService(req: any) {
         // * destructuring data from headers
-        const { id } = req.authUser
+        // const { id } = req.authUser
         // * destructuring data from params
         const { reportId } = req.params;
 
@@ -180,7 +180,7 @@ export class ReportService {
             }
 
             // * get all reports for specific product
-            const reports = await this.reportModel.findAll({ where: { productId }, include: [Product, User] });
+            const reports = await this.reportModel.findAll({ where: { productId }, include: [Product/*, User*/] });
             if (reports.length === 0) {
                 throw new NotFoundException({ message: 'Reports not found', status: 404 });
             }
@@ -207,10 +207,7 @@ export class ReportService {
         const { id } = req.authUser
         try {
             // * get all reports
-            const reports = await this.reportModel.findAll({ include: [Product, User] });
-            if (reports.length === 0) {
-                throw new NotFoundException({ message: 'Reports not found', status: 404 });
-            }
+            const reports = await this.reportModel.findAll({ include: [Product /*,User*/] });
 
             return reports
         } catch (err) {

@@ -34,28 +34,28 @@ export class Report extends Model<Report> {
     })
     product: Product;
 
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-    })
-    userId: number;
+    // @Column({
+    //     type: DataType.INTEGER,
+    //     allowNull: false,
+    // })
+    // userId: number;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
-    emailUser: string;
+    // @Column({
+    //     type: DataType.STRING,
+    //     allowNull: false,
+    // })
+    // emailUser: string;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
-    username: string
+    // @Column({
+    //     type: DataType.STRING,
+    //     allowNull: false,
+    // })
+    // username: string
 
-    @BelongsTo(() => User, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-    })
-    user: User;
+    // @BelongsTo(() => User, {
+    //     foreignKey: 'userId',
+    //     onDelete: 'CASCADE',
+    //     onUpdate: 'CASCADE',
+    // })
+    // user: User;
 }

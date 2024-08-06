@@ -11,39 +11,33 @@ export class ReportController {
 
     //================================= create report =================================//
     @Post('createReport')
-    @UseGuards(RolesGuard)
-    @UseGuards(AuthGuard)
-    @Roles(Role.USER)
     async createReportController(
         @Body() body: addReportBodyDTO,
         @Req() req: Request,
         @Res() res: Response,
     ) {
-        const response = await this.reportService.createReportService(req, body);
+        const response = await this.reportService.createReportService(/*req,*/ body);
 
         res.status(200).json({ message: 'Report created successfully', data: response });
     }
 
     //=============================== update report ================================//
-    @Patch('updateReport/:reportId')
-    @UseGuards(RolesGuard)
-    @UseGuards(AuthGuard)
-    @Roles(Role.USER)
-    async updateReportController(
-        @Body() body: updateReportBodyDTO,
-        @Req() req: Request,
-        @Res() res: Response,
-    ) {
-        const response = await this.reportService.updateReportService(req, body);
+    // @Patch('updateReport/:reportId')
+    // async updateReportController(
+    //     @Body() body: updateReportBodyDTO,
+    //     @Req() req: Request,
+    //     @Res() res: Response,
+    // ) {
+    //     const response = await this.reportService.updateReportService(req, body);
 
-        res.status(200).json({ message: 'Report updated successfully', data: response });
-    }
+    //     res.status(200).json({ message: 'Report updated successfully', data: response });
+    // }
 
     //=============================== delete report ================================//
     @Delete('deleteReport/:reportId')
     @UseGuards(RolesGuard)
     @UseGuards(AuthGuard)
-    @Roles(Role.USER)
+    @Roles(Role.ADMIN)
     async deleteReportController(
         @Req() req: Request,
         @Res() res: Response,
@@ -57,7 +51,7 @@ export class ReportController {
     @Get('getReportById/:reportId')
     @UseGuards(RolesGuard)
     @UseGuards(AuthGuard)
-    @Roles(Role.ADMIN, Role.USER)
+    @Roles(Role.ADMIN)
     async getReportByIdController(
         @Req() req: Request,
         @Res() res: Response,
@@ -71,7 +65,7 @@ export class ReportController {
     @Get('getAllReportsByProductId/:productId')
     @UseGuards(RolesGuard)
     @UseGuards(AuthGuard)
-    @Roles(Role.ADMIN, Role.USER)
+    @Roles(Role.ADMIN)
     async getAllReportsByProductIdController(
         @Req() req: Request,
         @Res() res: Response,

@@ -13,7 +13,7 @@ import { APP_FILTER } from '@nestjs/core';
   imports: [
     SequelizeModule.forRoot(databaseConfig),
     models,
-    UsersModule,
+    // UsersModule,
     AdminModule,
     ProductModule,
     ReportModule,
