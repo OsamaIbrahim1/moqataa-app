@@ -1,0 +1,13 @@
+[
+  { "name": "United States drugs", "firstCode": "030", "lastCode": "039" },
+  { "name": "United States", "firstCode": "100", "lastCode": "139" },
+  { "name": "United Arab Emirates", "firstCode": "629", "lastCode": "629" },
+  { "name": "Canada", "firstCode": "754", "lastCode": "755" },
+  { "name": "United States and Canada", "firstCode": "060", "lastCode": "099" },
+  { "name": "France and Monaco", "firstCode": "300", "lastCode": "379" },
+  { "name": "Isreal", "firstCode": "729", "lastCode": "729" },
+  { "name": "Germany", "firstCode": "400", "lastCode": "440" },
+  { "name": "Isreal", "firstCode": "871", "lastCode": "871" },
+  { "name": "United States and Canada", "firstCode": "000", "lastCode": "019" },
+  { "name": "United Kingdom", "firstCode": "500", "lastCode": "500" }
+]

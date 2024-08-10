@@ -198,9 +198,7 @@ export class DenotionService {
         try {
             // * get all denotion
             const denotion = await this.denotion.findAll();
-            if (denotion.length === 0) {
-                throw new NotFoundException({ message: 'Denotion not found', status: 404 });
-            }
+          
             return denotion;
         } catch (err) {
             throw new HttpException({

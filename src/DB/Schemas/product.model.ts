@@ -9,6 +9,9 @@ import { Report } from "./report.model";
 })
 
 export class Product extends Model<Product> {
+    static save(newEntity: Promise<Product>) {
+        throw new Error("Method not implemented.");
+    }
     @Column({
         type: DataType.INTEGER,
         autoIncrement: true,
@@ -42,22 +45,21 @@ export class Product extends Model<Product> {
     country: string;
 
     @Column({
-        type: DataType.BOOLEAN,
+        type: DataType.STRING,
         allowNull: false,
-        defaultValue: false,
     })
-    Boycott: boolean;
+    Boycott: string;
 
     @Column({
         type: DataType.STRING,
         allowNull: true,
     })
-    resonOfBoycott: string;
-
+    boycottReason: string;
 
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
+        defaultValue: 0,
     })
     rate: number;
 

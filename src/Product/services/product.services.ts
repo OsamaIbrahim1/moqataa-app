@@ -2,6 +2,8 @@ import { BadRequestException, HttpException, Injectable, NotFoundException } fro
 import { InjectModel } from "@nestjs/sequelize";
 import { Admin, Product } from "../../DB/Schemas";
 import { addProductBodyDTO, updateProductBodyDTO } from "../../DTO";
+import * as fs from 'fs';
+import * as path from "path";
 
 @Injectable()
 export class ProductService {
@@ -22,7 +24,7 @@ export class ProductService {
      */
     async createProductService(body: addProductBodyDTO, req: any) {
         // * destructuring data from body
-        const { name, category, country, rate, image, Boycott, resonOfBoycott } = body;
+        const { name, category, country, rate, image, Boycott, boycottReason } = body;
         // * destructuring data from headers
         const { id } = req.authUser
 
@@ -41,7 +43,7 @@ export class ProductService {
                 rate,
                 image,
                 Boycott,
-                resonOfBoycott,
+                boycottReason,
                 adminId: id
             }
 
@@ -83,7 +85,7 @@ export class ProductService {
         // * destructuring data from params
         const { productId } = req.params;
         // * destructuring data from body
-        const { name, category, country, rate, image, Boycott, resonOfBoycott } = body;
+        const { name, category, country, rate, image, Boycott, boycottReason } = body;
         // * destructuring data from headers
         const { id } = req.authUser
 
@@ -131,8 +133,8 @@ export class ProductService {
             }
 
             // * if want to update resonOfBoycott
-            if (resonOfBoycott) {
-                product.resonOfBoycott = resonOfBoycott;
+            if (boycottReason) {
+                product.boycottReason = boycottReason;
             }
 
             // * save changes
@@ -227,6 +229,38 @@ export class ProductService {
             }, err['response'].status, {
                 cause: err
             });
+        }
+    }
+
+    //=================================== insert Data ========================================//
+    /**
+     * 
+     */
+    async insertDataServices() {
+        try {
+            const filePath = path.resolve(__dirname, './productsData.json');
+            console.log(filePath)
+            const data = fs.readFileSync(filePath, 'utf8');
+            console.log("data: ", data)
+            const jsonData = JSON.parse(data);
+            console.log("jsonData: ", jsonData)
+            let i = 0
+            for (const item of jsonData) {
+                const newEntity = this.productModel.create({
+                    name: item.name,
+                    category: item.category,
+                    Boycott: item.boycott,
+                    boycottReason: item.boycottReason,
+                    country: item.country,
+                    image: item.image,
+                    rate: item.ratign,
+                    adminId: 1
+                });
+                // await this.productModel.save(newEntity);
+            }
+            console.log('Data inserted successfully');
+        } catch (error) {
+            console.error('Error reading or inserting data:', error);
         }
     }
 }

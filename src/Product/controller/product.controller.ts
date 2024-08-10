@@ -85,4 +85,14 @@ export class ProductController {
 
         res.status(200).json({ message: 'All product retrieved successfully', data: response });
     }
+
+    //================================= insert data in my database =================================//
+    @Get('insertData')
+    async insertDataController(
+        @Res() res: Response,
+    ) {
+        const response = await this.productService.insertDataServices();
+
+        res.status(200).json({ message: 'Data inserted successfully', data: response });
+    }
 }

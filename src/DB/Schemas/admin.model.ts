@@ -2,6 +2,7 @@ import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { Role } from "../../utils";
 import { Product } from "./product.model";
 import { Denotion } from "./denotion.model";
+import { CountryCode } from "./country-code.model";
 
 @Table({
     tableName: 'Admin',
@@ -79,4 +80,11 @@ export class Admin extends Model<Admin> {
         onUpdate: 'CASCADE',
     })
     denotions: Denotion[];
+
+    // @HasMany(() => CountryCode, {
+    //     foreignKey: 'adminId',
+    //     onDelete: 'CASCADE',
+    //     onUpdate: 'CASCADE',
+    // })
+    // countryCodes: CountryCode[];
 }

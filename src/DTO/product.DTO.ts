@@ -35,11 +35,11 @@ export class addProductBodyDTO {
     @IsString()
     @MinLength(5)
     @MaxLength(50)
-    resonOfBoycott: string;
+    boycottReason: string;
 
     @IsNotEmpty()
-    @IsBoolean()
-    Boycott: boolean;
+    @IsString()
+    Boycott: string;
 }
 
 @Injectable()
@@ -70,8 +70,8 @@ export class updateProductBodyDTO {
     @IsString()
     @MinLength(5)
     @MaxLength(50)
-    resonOfBoycott: string;
+    boycottReason: string;
 
-    @IsBoolean()
-    Boycott: boolean;
+    @IsString()
+    Boycott: string;
 }
