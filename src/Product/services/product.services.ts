@@ -164,7 +164,7 @@ export class ProductService {
 
         try {
             // * check if product is exist
-            const product = await this.productModel.findByPk(productId, { attributes: { exclude: ['id', 'adminId', 'createdAt', 'updatedAt'] } });
+            const product = await this.productModel.findByPk(productId, { attributes: { exclude: ['adminId', 'createdAt', 'updatedAt'] } });
             if (!product) {
                 throw new NotFoundException({ message: 'Product not found', status: 404 });
             }
@@ -218,7 +218,7 @@ export class ProductService {
     async getAllProductServices() {
         try {
             // * get all products
-            const products = await this.productModel.findAll({ attributes: { exclude: ['id', 'adminId', 'createdAt', 'updatedAt'] } })
+            const products = await this.productModel.findAll({ attributes: { exclude: ['adminId', 'createdAt', 'updatedAt'] } })
 
             return products;
         } catch (err) {
