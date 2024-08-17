@@ -11,14 +11,14 @@ export class createDenotionBodyDTO {
 
     @IsNotEmpty()
     @IsString()
-    @MinLength(3)
-    @MaxLength(30)
+    // @MinLength(3)
+    // @MaxLength(30)
     image: string;
 
     @IsNotEmpty()
     @IsString()
-    @MinLength(3)
-    @MaxLength(30)
+    // @MinLength(3)
+    // @MaxLength(30)
     link: string;
 }
 
@@ -30,12 +30,12 @@ export class updateDenotionBodyDTO {
     name: string;
 
     @IsString()
-    @MinLength(3)
-    @MaxLength(30)
+    // @MinLength(3)
+    // @MaxLength(30)
     image: string;
 
     @IsString()
-    @MinLength(3)
-    @MaxLength(30)
+    // @MinLength(3)
+    // @MaxLength(30)
     link: string;
 }

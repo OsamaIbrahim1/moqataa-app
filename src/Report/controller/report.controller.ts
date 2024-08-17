@@ -13,7 +13,7 @@ export class ReportController {
     @Post('createReport')
     async createReportController(
         @Body() body: addReportBodyDTO,
-        @Req() req: Request,
+        // @Req() req: Request,
         @Res() res: Response,
     ) {
         const response = await this.reportService.createReportService(/*req,*/ body);

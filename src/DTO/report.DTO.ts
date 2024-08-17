@@ -6,7 +6,7 @@ export class addReportBodyDTO {
     @IsNotEmpty()
     @IsString()
     @MinLength(5)
-    @MaxLength(50)
+    @MaxLength(200)
     message: string;
 
     @IsNotEmpty()
@@ -19,6 +19,6 @@ export class updateReportBodyDTO {
     @IsNotEmpty()
     @IsString()
     @MinLength(5)
-    @MaxLength(50)
+    @MaxLength(200)
     message: string;
 }
