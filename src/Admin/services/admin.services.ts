@@ -105,6 +105,14 @@ export class AdminService {
 
             return admin
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -139,6 +147,14 @@ export class AdminService {
 
             return admin
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -194,6 +210,14 @@ export class AdminService {
 
             return afterUpdate
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -263,6 +287,14 @@ export class AdminService {
 
             return admin
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -290,6 +322,14 @@ export class AdminService {
 
             return admin
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -305,10 +345,10 @@ export class AdminService {
      * * check if email already exists
      */
     async deleteAccountAdminServices(req: any) {
-        // * destructuring data from headers
-        const { id } = req.authUser
-
         try {
+            // * destructuring data from headers
+            const { id } = req.authUser
+
             // * check if email already exists
             const admin = await this.adminModel.destroy({ where: { id } })
             if (!admin) {
@@ -317,6 +357,14 @@ export class AdminService {
 
             return admin
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,

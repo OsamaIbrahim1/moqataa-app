@@ -1,9 +1,9 @@
-import { BadRequestException, CanActivate, ExecutionContext, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, CanActivate, ExecutionContext, HttpException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { Admin, User } from '../DB/Schemas';
 import * as env from '../config';
-import { Role } from 'src/utils';
+import { Role } from '../utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -55,6 +55,14 @@ export class AuthGuard implements CanActivate {
             // * TokenExpiredError: jwt expired
             return false
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,

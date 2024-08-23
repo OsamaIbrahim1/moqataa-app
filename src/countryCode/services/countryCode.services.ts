@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { CountryCode } from "../../DB/Schemas";
 import * as fs from 'fs';
@@ -39,6 +39,14 @@ export class CountryCodeServices {
             return countryCode;
 
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -95,6 +103,14 @@ export class CountryCodeServices {
 
             return countryCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -132,6 +148,14 @@ export class CountryCodeServices {
 
             return deletedCountryCode
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -160,6 +184,14 @@ export class CountryCodeServices {
 
             return countryCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -180,6 +212,14 @@ export class CountryCodeServices {
             const countryCode = await this.countryCode.findAll()
             return countryCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,

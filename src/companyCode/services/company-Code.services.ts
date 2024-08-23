@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { CompanyCode } from "../../DB/Schemas";
 import * as fs from 'fs';
@@ -36,6 +36,14 @@ export class CompanyCodeService {
 
             return companyCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -90,6 +98,14 @@ export class CompanyCodeService {
 
             return companyCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -120,6 +136,14 @@ export class CompanyCodeService {
 
             return companyCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -147,6 +171,14 @@ export class CompanyCodeService {
 
             return companyCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -156,7 +188,6 @@ export class CompanyCodeService {
             });
         }
     }
-
     //============================== get all companyCode ==============================//
     /**
      * * get all company code
@@ -168,6 +199,14 @@ export class CompanyCodeService {
 
             return companyCode;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,

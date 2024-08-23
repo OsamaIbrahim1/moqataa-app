@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Admin, Product } from "../../DB/Schemas";
 import { addProductBodyDTO, updateProductBodyDTO } from "../../DTO";
@@ -23,12 +23,12 @@ export class ProductService {
      * * create product
      */
     async createProductService(body: addProductBodyDTO, req: any) {
+        try {
         // * destructuring data from body
         const { name, category, country, rate, image, Boycott, boycottReason } = body;
         // * destructuring data from headers
         const { id } = req.authUser
 
-        try {
             // * check if admin is exist
             const admin = await this.adminModel.findByPk(id);
             if (!admin) {
@@ -55,6 +55,14 @@ export class ProductService {
 
             return product;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -141,8 +149,15 @@ export class ProductService {
             await product.save();
 
             return product;
-        }
-        catch (err) {
+        } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -171,6 +186,14 @@ export class ProductService {
 
             return product;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -201,6 +224,14 @@ export class ProductService {
 
             return product
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
@@ -222,6 +253,14 @@ export class ProductService {
 
             return products;
         } catch (err) {
+            if (!err['response']) {
+                throw new InternalServerErrorException({
+                    message: 'An unexpected error occurred.',
+                    status: 500,
+                    timestamp: new Date().toISOString(),
+                    error: err.message || 'Unknown error'
+                });
+            }
             throw new HttpException({
                 error: err['response'].message,
                 status: err['response'].status,
