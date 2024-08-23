@@ -57,9 +57,9 @@ export class Product extends Model<Product> {
     boycottReason: string;
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.DOUBLE,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0.0,
     })
     rate: number;
 
